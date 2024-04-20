@@ -13,6 +13,16 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/tweets', TweetRoutes);
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Check server status
+ *     tags: [Default]
+ *     responses:
+ *       '200':
+ *         description: Server is running
+ */
 app.get('/', (req, res) => {
     res.status(200).send('Server is running');
 });
@@ -33,3 +43,5 @@ app.use(errorHandler);
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+ 
