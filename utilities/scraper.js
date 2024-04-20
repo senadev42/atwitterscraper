@@ -1,13 +1,25 @@
 const puppeteer = require("puppeteer");
+require('dotenv').config()
 
+const crypto = require('crypto');
+
+/**
+ * This function scrapes tweets from a given URL and 
+ * returns an array of tweet objects.
+ * @param {string} url - The URL of the Twitter page to scrape.
+ * @returns {Promise<object[]>} - A promise that resolves to an array of tweet objects.
+ */
 async function scrapeTweets(url) {
-  //setting up
   const browser = await puppeteer.launch();
   const page = (await browser.pages())[0];
   await page.goto(url, { waitUntil: "load" });
   await page.setViewport({ width: 1000, height: 1024 });
+
+  //wait for at least one tweet to show up
   await page.waitForSelector('[data-testid="tweet"]', { timeout: 5000 });
 
+
+  //Load Tweets
   const desiredTweetCount = 12; //rough anon view count
   let currentTweetCount = 0;
 
@@ -79,11 +91,18 @@ async function scrapeTweets(url) {
           authorHandle: "@" + authorHandle,
           isQuoteTweet: isQuoteTweet,
           datetime: datetime,
-          // tweetText: tweetText.trim(),
+          tweetText: tweetText.trim(),
         });
       });
 
       return tweetObjects;
+    });
+
+    //add a hash to every tweet
+    tweets.forEach((tweet) => {
+      tweet.hash = crypto.createHash('md5').update(
+        tweet.socialContextText + tweet.authorHandle + tweet.isQuoteTweet + tweet.datetime
+      ).digest('hex');
     });
 
     console.log("Tweets logged:" + tweets.length);
@@ -96,14 +115,16 @@ async function scrapeTweets(url) {
   await browser.close();
 }
 
-async function scrapeAndLogTweets(url) {
-  try {
-    const tweets = await scrapeTweets(url);
-    console.log("Scraping completed.");
-    console.log("Tweets:", tweets);
-  } catch (err) {
-    console.error("Error during scraping:", err);
-  }
-}
+module.exports = scrapeTweets;
 
-scrapeAndLogTweets("https://twitter.com/coindesk");
+// async function scrapeAndLogTweets(url) {
+//   try {
+//     const tweets = await scrapeTweets(url);
+//     console.log("Scraping completed.");
+//     console.log("Tweets:", tweets);
+//   } catch (err) {
+//     console.error("Error during scraping:", err);
+//   }
+// }
+
+// scrapeAndLogTweets("https://twitter.com/coindesk");
