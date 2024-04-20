@@ -37,7 +37,7 @@ async function loadTweetsIntoDB(tweetObjects) {
   }
 }
 
-async function main() {
+async function scrapeandloadtweets() {
   // Initialize the database
   await initDB();
 
@@ -61,4 +61,6 @@ async function main() {
 
   console.log("Tweets loaded into database");
 }
-main();
+
+
+module.exports = scrapeandloadtweets;
