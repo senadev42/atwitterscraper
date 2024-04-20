@@ -23,7 +23,7 @@ export default async function initDB() {
             );
         `;
         const { rows } = await client.query(tableExistsQuery);
-        const tableExists = rows[0].exists;
+        const tableExists = rows[0].exists; 
 
         if (!tableExists) {
             // Create it if it doesn't exist
@@ -31,11 +31,13 @@ export default async function initDB() {
             CREATE TABLE scrapedtweets (
                 id SERIAL PRIMARY KEY,
                 socialContext TEXT,
-                authorHandle TEXT,
+                authorHandle VARCHAR(20),
                 isQuoteTweet BOOLEAN,
                 datetime TIMESTAMP,
                 tweetText TEXT,
-                hash TEXT UNIQUE
+                hash VARCHAR(255) UNIQUE,
+                isVideoPost BOOLEAN,
+                videoURL VARCHAR(255)
             );`;
 
             await client.query(createTableQuery);

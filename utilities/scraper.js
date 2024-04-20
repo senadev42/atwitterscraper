@@ -83,6 +83,10 @@ export default async function scrapeTweets(url) {
           currentNode = currentNode.nextElementSibling;
         }
 
+        //video check
+        const isVideoPost = tweetElement.querySelector('[data-testid="videoPlayer"]') !== null;
+        const videoURL = isVideoPost ? tweetElement.querySelector('[type="video/mp4"]').getAttribute('src') : null;
+
         //push the object
         tweetObjects.push({
           socialContext: socialContextText,
@@ -90,6 +94,8 @@ export default async function scrapeTweets(url) {
           isQuoteTweet: isQuoteTweet,
           datetime: datetime,
           tweetText: tweetText.trim(),
+          isVideoPost: isVideoPost,
+          videoURL: videoURL
         });
       });
 
@@ -112,16 +118,3 @@ export default async function scrapeTweets(url) {
 
   await browser.close();
 }
-
-
-// async function scrapeAndLogTweets(url) {
-//   try {
-//     const tweets = await scrapeTweets(url);
-//     console.log("Scraping completed.");
-//     console.log("Tweets:", tweets);
-//   } catch (err) {
-//     console.error("Error during scraping:", err);
-//   }
-// }
-
-// scrapeAndLogTweets("https://twitter.com/coindesk");

@@ -1,12 +1,10 @@
 import dotenv from 'dotenv';
 import scrapeTweets from '../utilities/scraper.js';
 import initDB from '../db/db_init.js';
-
 import pg from 'pg';
+
 const { Client } = pg;
-
 dotenv.config();
-
 
 // Your PostgreSQL connection string
 const connectionString = process.env.POSTGRES_CONN_STRING;
@@ -20,57 +18,50 @@ async function loadTweetsIntoDB(tweetObjects) {
     await client.connect();
 
     for (const tweet of tweetObjects) {
+
+      const { socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, isVideoPost, videoURL } = tweet;
+
       await client.query(
-        "INSERT INTO scrapedtweets (socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash)" +
-        "VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (hash) DO NOTHING",
-        [
-          tweet.socialContext,
-          tweet.authorHandle,
-          tweet.isQuoteTweet,
-          tweet.datetime,
-          tweet.tweetText,
-          tweet.hash,
-        ]
+        `INSERT INTO scrapedtweets (socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, isVideoPost, videoURL)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+         ON CONFLICT (hash) DO NOTHING`,
+        [socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, isVideoPost, videoURL]
       );
+
     }
 
     console.log("Tweets inserted successfully");
   } catch (error) {
-    console.error("Error inserting tweets:", error);
+    console.error("Error inserting tweets:", error.message);
   } finally {
     await client.end();
   }
 }
 
 async function scrapeandloadtweets() {
-  // Initialize the database
-  await initDB();
-
-  return;
-
-  console.log("Database initialized \n");
+  // Initialize the database - this will create the tables if they don't exist
+  // await initDB();
+  // console.log("Database initialized \n");
 
   // Scrape tweets from a specific URL
   const url = "https://twitter.com/coindesk";
-  const tweetObjects = await scrapeTweets(url);
+  console.log("\nScraping url: " + url);
 
   try {
-    const tweets = await scrapeTweets(url);
-    console.log(tweets);
+    const tweetObjects = await scrapeTweets(url);
 
-    console.log("Tweet Scraped")
+    console.log(tweetObjects);
+    console.log(tweetObjects.length + " tweets scraped.")
+
+    // Load the scraped tweets into the database
+    await loadTweetsIntoDB(tweetObjects);
+    console.log("Tweets loaded into database");
+
   } catch (err) {
     console.error("Error during scraping:", err);
-  }
+  } 
 
-  // Load the scraped tweets into the database
-  await loadTweetsIntoDB(tweetObjects);
-
-  console.log("Tweets loaded into database");
+  return;
 }
 
-
-scrapeandloadtweets();
-
-
-//export default scrapeandloadtweets;
+export default scrapeandloadtweets;
