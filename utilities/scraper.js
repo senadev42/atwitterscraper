@@ -1,7 +1,5 @@
-const puppeteer = require("puppeteer");
-require('dotenv').config()
-
-const crypto = require('crypto');
+import puppeteer from "puppeteer";
+import crypto from "crypto";
 
 /**
  * This function scrapes tweets from a given URL and 
@@ -9,7 +7,7 @@ const crypto = require('crypto');
  * @param {string} url - The URL of the Twitter page to scrape.
  * @returns {Promise<object[]>} - A promise that resolves to an array of tweet objects.
  */
-async function scrapeTweets(url) {
+export default async function scrapeTweets(url) {
   const browser = await puppeteer.launch();
   const page = (await browser.pages())[0];
   await page.goto(url, { waitUntil: "load" });
@@ -115,7 +113,6 @@ async function scrapeTweets(url) {
   await browser.close();
 }
 
-module.exports = scrapeTweets;
 
 // async function scrapeAndLogTweets(url) {
 //   try {

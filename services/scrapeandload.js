@@ -1,7 +1,12 @@
-const { Client } = require("pg");
+import dotenv from 'dotenv';
+import scrapeTweets from '../utilities/scraper.js';
+import initDB from '../db/db_init.js';
 
-const scrapeTweets = require("../utilities/scraper");
-const initDB = require("../db/db_init.js");
+import pg from 'pg';
+const { Client } = pg;
+
+dotenv.config();
+
 
 // Your PostgreSQL connection string
 const connectionString = process.env.POSTGRES_CONN_STRING;
@@ -41,10 +46,12 @@ async function scrapeandloadtweets() {
   // Initialize the database
   await initDB();
 
+  return;
+
   console.log("Database initialized \n");
 
   // Scrape tweets from a specific URL
-  const url = "https://twitter.com/coindesk"; // Adjust the URL as necessary
+  const url = "https://twitter.com/coindesk";
   const tweetObjects = await scrapeTweets(url);
 
   try {
@@ -63,4 +70,7 @@ async function scrapeandloadtweets() {
 }
 
 
-module.exports = scrapeandloadtweets;
+scrapeandloadtweets();
+
+
+//export default scrapeandloadtweets;

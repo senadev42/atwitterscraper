@@ -1,9 +1,12 @@
-const { Client } = require("pg");
-require("dotenv").config();
+import pg from 'pg';
+import dotenv from 'dotenv';
+
+const { Client } = pg;
+dotenv.config();
 
 const connectionString = process.env.POSTGRES_CONN_STRING;
 
-async function initDB() {
+export default async function initDB() {
     const client = new Client({
         connectionString: connectionString,
     });
@@ -47,4 +50,3 @@ async function initDB() {
     }
 }
 
-module.exports = initDB;
