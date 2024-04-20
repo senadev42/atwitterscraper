@@ -8,24 +8,19 @@ async function scrapeTweets(url) {
   await page.setViewport({ width: 1000, height: 1024 });
   await page.waitForSelector('[data-testid="tweet"]', { timeout: 5000 });
 
-  //hydrate the page
-  const maxScrollAttempts = 10;
-  const desiredTweetCount = 12; //anon limit
+  const desiredTweetCount = 12; //rough anon view count
   let currentTweetCount = 0;
 
-  for (let attempt = 0; attempt < maxScrollAttempts; attempt++) {
-    currentTweetCount = await page.evaluate(() => {
-      return document.querySelectorAll('[data-testid="tweet"]').length;
-    });
-
-    if (currentTweetCount >= desiredTweetCount) break;
-
-    // Scroll down
+  while (currentTweetCount < desiredTweetCount) {
     await page.evaluate(() => {
       window.scrollBy(0, window.innerHeight);
     });
 
     await new Promise(r => setTimeout(r, 500));
+
+    currentTweetCount = await page.evaluate(() => {
+      return document.querySelectorAll('[data-testid="tweet"]').length;
+    });
   }
 
   console.log(`Tweet count: ${currentTweetCount}`);
