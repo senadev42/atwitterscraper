@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 const router = Router();
-import {getPaginatedTweets} from '../controllers/tweetController.js';
+import { getPaginatedTweets, manualscrape } from '../controllers/tweetController.js';
 
 /**
  * @swagger
@@ -13,11 +13,13 @@ import {getPaginatedTweets} from '../controllers/tweetController.js';
  *     parameters:
  *       - in: query
  *         name: page
+ *         default: 1
  *         schema:
  *           type: integer
  *         description: Page number for pagination.
  *       - in: query
  *         name: size
+ *         default: 5
  *         schema:
  *           type: integer
  *         description: Number of tweets per page.
@@ -28,5 +30,21 @@ import {getPaginatedTweets} from '../controllers/tweetController.js';
  *         description: Server error.
  */
 router.get('/', getPaginatedTweets);
+
+/**
+ * @swagger
+ * /api/tweets/manualscrape:
+ *   get:
+ *     summary: Scrape tweets manually/right now
+ *     tags: [Tweets]
+ *     description: Takes sometime to run. Helpful if you don't want to wait for hourly scheduler. 
+ *     responses:
+ *       200:
+ *         description: A message saying scraped successfully.
+ *       500:
+ *         description: Server error.
+ * 
+ */
+router.get('/manualscrape', manualscrape);
 
 export default router;

@@ -1,4 +1,5 @@
-import {paginatetweets} from "../services/paginatetweets.js";
+import { paginatetweets } from "../services/paginatetweets.js";
+import scrapeandloadtweets from "../services/scrapeandload.js";
 
 
 export const getPaginatedTweets = async (req, res) => {
@@ -10,7 +11,17 @@ export const getPaginatedTweets = async (req, res) => {
         res.status(200).json(tweets);
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: 'Error fetching tweets' });
+        res.status(500).json({ message: 'Error fetching scraped tweets' });
     }
 }
 
+
+export const manualscrape = async (req, res) => {
+    try {
+        await scrapeandloadtweets();
+        res.status(200).json({ message: "Successfully scraped tweets" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Error scraping tweets' });
+    }
+}

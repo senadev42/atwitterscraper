@@ -21,7 +21,7 @@ export async function paginatetweets(page = 1, size = 5) {
         const offset = (page - 1) * size;
         const query = `
             SELECT * FROM scrapedtweets
-            ORDER BY datetime DESC
+            ORDER BY id DESC
             LIMIT $1 OFFSET $2;
         `;
         const { rows } = await client.query(query, [size, offset]);
