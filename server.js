@@ -1,28 +1,37 @@
-const express = require('express');
-const nodeSchedule = require('node-schedule');
-const { Client } = require('pg');
-//const scrapeandloadtweets = require('./services/scrapeandload'); // Adjust the path as necessary
+import express from 'express';
+import nodeSchedule from 'node-schedule';
+import { swaggerUi, specs } from './swagger.js';
 
-
-const connectionString = process.env.POSTGRES_CONN_STRING;
+import TweetRoutes from './routes/tweetRoutes.js';
 
 //init
 const app = express();
 const port = process.env.PORT || 3000;
 
-// iddleware
+//middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//base
+
+//binding routes
+app.use('/api/tweets', TweetRoutes);
+
+
 app.get('/', (req, res) => {
     res.status(200).send('Server is running');
 });
 
-nodeSchedule.scheduleJob('*/10 * * * * *', () => {
-    //scrapeandloadtweets().catch(console.error);
+//swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
+
+
+nodeSchedule.scheduleJob('0 * * * *', () => {
     console.log('Scraping and loading tweets');
 });
+
+
+
 
 // Start the server
 app.listen(port, () => {
