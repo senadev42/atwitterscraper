@@ -1,8 +1,11 @@
 import dotenv from 'dotenv';
+import pg from 'pg';
+
 import initDB from '../db/db_init.js';
 import scrapeTweets from '../utilities/scraper.js';
 import { processImages } from '../utilities/processImages.js';
-import pg from 'pg';
+import { emailvideos} from '../utilities/emailvideos.js';
+
 
 const { Client } = pg;
 dotenv.config();
@@ -28,9 +31,9 @@ async function loadTweetsIntoDB(tweetObjects) {
       );
     }
 
-    console.log("Tweets inserted successfully");
+    console.log("Tweets loaded into database");
   } catch (error) {
-    console.error("Error inserting tweets:", error.message);
+    console.error("Error loading tweets into database:", error.message);
   } finally {
     await client.end();
   }
@@ -42,28 +45,34 @@ async function scrapeandloadtweets() {
   await initDB();
   console.log("Database initialized \n");
 
-  // Scrape tweets from a specific URL
+
   const url = "https://twitter.com/coindesk";
-  console.log("\nScraping: " + url);
+
 
   try {
+    // 1. Scrape tweets from a specific URL
+    console.log("\nScraping: " + url);
     const tweetObjects = await scrapeTweets(url);
 
     //console.log(tweetObjects);
     console.log(tweetObjects.length + " tweets scraped.")
 
-    //save any images to local storage, but don't do this on render
+    //2. save any images to local storage, but don't do this on render
     if (process.env.ONRENDER == null) {
       console.log("\nDownloading Images");
       await processImages(tweetObjects);
     }
 
-    // Load the scraped tweets into the database
+    //3. if there were any video this scrape cycle email them
+    if (process.env.ONRENDER == null && process.env.EMAIL_TARGET) {
+      console.log("\nSending emails");
+      await emailvideos(tweetObjects);
+    }
+
+    // 4. Load the scraped tweets into the database
     await loadTweetsIntoDB(tweetObjects);
-    console.log("Tweets loaded into database");
-
+  
     console.log("Scrape and load cycle finished successfully");
-
   } catch (err) {
     console.error("Error during scraping:", err);
   } 

@@ -16,13 +16,14 @@ This version is **limited** in that
 
 While /api/tweets will serve tweets scraped so far on the hosted version, to do a full test it will have be setup locally or on a controlled enviroment.
 
-### Setup
+### Getting Started
 
 #### Prerequisites
 - Node.js installed on your system
 - PostgreSQL installed and running, or a managed database like [neonDB](https://neon.tech/).
+- A mailgun account and api key (for the email functionality).
 
-#### Installation
+#### Setup
 1. Clone this repository:
 ```
 git clone https://github.com/senadev42/atwitterscraper.git
@@ -34,7 +35,7 @@ git clone https://github.com/senadev42/atwitterscraper.git
 cd 
 npm install
 ```
-3. This projects uses postgres as a database. You can use your own postgres db or a managed postgres db like neon (link above in pre-requisites). Just create a .env file and add a postgres connection string. Refer to the .env.example file if needed.
+3. This project uses postgres as a database. You can use your own postgres db or a managed postgres db like neon (link above in pre-requisites). Just create a .env file and add a postgres connection string. Refer to the .env.example file if needed.
 
 ```
 POSTGRES_CONN_STRING = "postgresql://<username>:<password>@<dbhost>/<dbname>?sslmode=require"
@@ -42,23 +43,30 @@ POSTGRES_CONN_STRING = "postgresql://<username>:<password>@<dbhost>/<dbname>?ssl
 
 Note: Including the ```sslmode=require``` parameter is required if you're going to be using this with a managed database like neon. 
 
-4. Start the server:
+4. This project uses mailgun as an email provider. You'll need to create a mailgun account and get an api key and a domain. And without verification, you'll need to add the email account you're testing with into Authorized Recepients under Sending > Overview in Mailgun.
+
+```
+MAILGUN_API_KEY = ""
+MAILGUN_DOMAIN = ""
+EMAIL_TARGET = ""
+```
+
+5. Start the server:
 
 ```
 npm run dev
 ```
 
-#### Usage
+### Usage
 Once the server is running, you can access the API and Swagger documentation. The port is 3000 by default but you can change it by setting a PORT value in the .env file.
 
 - Swagger Documentation: ```/api-docs```
 
 
 #### Scraping
-The server is configured to scrape tweets every hour using node-scheduler. 
+The server is configured to scrape periodically using node-scheduler, grabbing what it can and then generating a hash for a tweet using the author, time and other details to use as a unique identifier.
 
-However, for testing purposes, you can use the following endpoint to do an automatic scrape.
+While it runs once an hour, for testing purposes, you can use ```GET /api/tweets/manualscrape``` to do trigger an immediate scrape.
 
-- Manually Scrape Tweets API: ```GET``` ``` /api/tweets/manualscrape```
 
 
