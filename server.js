@@ -5,6 +5,7 @@ import { swaggerUi, specs } from './swagger.js';
 //routes and middleware
 import TweetRoutes from './routes/tweetRoutes.js';
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import scrapeandloadtweets from "./services/scrapeandload.js";
 
 //init
 const app = express();
@@ -30,9 +31,10 @@ app.get('/', (req, res) => {
 //swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-//the scheduler
+//Runs every hour
 nodeSchedule.scheduleJob('0 * * * *', () => {
     console.log('Scraping and loading tweets');
+    scrapeandloadtweets();
 });
 
 // Error Handling Middleware
