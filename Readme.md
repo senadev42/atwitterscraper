@@ -1,8 +1,6 @@
 # Twitter Scraping Server
 
-This project is a Node.js application for scraping tweets from a given twitter account, storing them in a PostgreSQL database, and serving them over a simple REST API.
-
-It uses puppeteer for the scraping, express for the server, postgres for the database, and swagger for api docs.
+This project is a Node.js application for scraping tweets from a given twitter account, storing them in a PostgreSQL database, and serving them over a simple REST API. It uses puppeteer for the scraping, express for the server, postgres for the database, and swagger for api docs.
 
 Almost the entirety of the scraping logic is in utilities/scraper.js while everything else is set up like a typical express server.
 
@@ -16,16 +14,16 @@ Almost the entirety of the scraping logic is in utilities/scraper.js while every
 #### Installation
 1. Clone this repository:
 ```
-git clone <repository_url>
+git clone https://github.com/senadev42/atwitterscraper.git
 ```
 
 2. Install dependencies:
 
 ```
-cd <project_folder>
+cd 
 npm install
 ```
-3. The postgres a database. You can use your own postgres db or a managed postgres db like neon. Just create a .env file and add a connection string. Refer to the .env.example file if needed.
+3. This projects uses postgres as a database. You can use your own postgres db or a managed postgres db like neon (link above in pre-requisites). Just create a .env file and add a postgres connection string. Refer to the .env.example file if needed.
 
 ```
 POSTGRES_CONN_STRING = "postgresql://<username>:<password>@<dbhost>/<dbname>?sslmode=require"
@@ -52,8 +50,6 @@ The server is configured to scrape tweets every hour using node-scheduler.
 
 However, for testing purposes, you can use the following endpoint to do an automatic scrape.
 
-- Manually Scrape Tweets API: ```GET http://localhost:3000/api/tweets/manualscrape```
+- Manually Scrape Tweets API: ```GET``` ``` http://localhost:3000/api/tweets/manualscrape```
 
 
-#### API Endpoints
-GET /api/tweets: Retrieve saved tweets with pagination.
