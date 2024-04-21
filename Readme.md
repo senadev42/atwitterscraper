@@ -21,7 +21,7 @@ While /api/tweets will serve tweets scraped so far on the hosted version, to do 
 #### Prerequisites
 - Node.js installed on your system
 - PostgreSQL installed and running, or a managed database like [neonDB](https://neon.tech/).
-- A mailgun account and api key (for the email functionality).
+- A [mailgun](mailgun.com) account and api key (for the email functionality).
 
 #### Setup
 1. Clone this repository:
@@ -43,14 +43,14 @@ POSTGRES_CONN_STRING = "postgresql://<username>:<password>@<dbhost>/<dbname>?ssl
 
 Note: Including the ```sslmode=require``` parameter is required if you're going to be using this with a managed database like neon. 
 
-4. This project uses mailgun as an email provider. You'll need to create a mailgun account and get an api key and a domain. 
+4. This project uses [mailgun](mailgun.com) as an email provider. You'll need to create a mailgun account and get an api key and a domain. 
 
 ```
 MAILGUN_API_KEY = ""
 MAILGUN_DOMAIN = ""
-EMAIL_TARGET = ""
+EMAIL_TARGET = "" //must be in authorized recipients in your mailgun account for sandbox mode
 ```
-And without verification, you'll need to add the email account you're testing with into Authorized Recepients under Sending > Overview in Mailgun.
+And if using the sandbox domain (https://app.mailgun.com/mg/sending/domains) provided by mailgun, you will need to add the email account you're testing with into _Authorized Recepients_ and confirm it.
 
 
 

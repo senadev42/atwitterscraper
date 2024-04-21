@@ -53,6 +53,7 @@ router.get('/manualscrape', manualscrape);
  *   get:
  *     summary: Triggers a download of all images in db even if not in current cycle. 
  *     tags: [Debug]
+ *     description:  Turned off on render server as it is managed and tiny.
  *     responses:
  *       200:
  *         description: A message saying downloaded images successfully.
