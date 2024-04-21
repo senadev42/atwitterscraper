@@ -7,8 +7,8 @@ const options = {
         info: {
             title: 'Twitter Scraper API',
             version: '1.0.0',
-            description: 'API documentation generated with Swagger',
-        }
+            description: 'API documentation for a Node.js server that scrapes tweets from Twitter and provides access to saved tweets. Repo found at: https://github.com/senadev42/atwitterscraper',
+        },
     },
     apis: ['server.js', './routes/*.js'], 
 };

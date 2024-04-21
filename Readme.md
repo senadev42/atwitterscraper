@@ -5,6 +5,15 @@ This project is a Node.js application for scraping tweets from a given twitter a
 Almost the entirety of the scraping logic is in utilities/scraper.js while everything else is set up like a typical express server.
 
 
+### Hosted version 
+
+A hosted version of this api using render's free tier can be found at https://atwitterscraper.onrender.com with the swagger api documentation hosted at https://atwitterscraper.onrender.com/api-docs.
+
+This version is limited in that it will take time to spin up since render spins down servers after a period of inactivity, so it will not start automatically.
+
+
+Alternatively. You can set it up on your own:
+
 ### Setup
 
 #### Prerequisites
@@ -40,9 +49,7 @@ npm run dev
 #### Usage
 Once the server is running, you can access the API and Swagger documentation. The port is 3000 by default but you can change it by setting a PORT value in the .env file.
 
-- API Base URL: ```http://localhost:3000/```
-- Swagger Documentation: ```http://localhost:3000/api-docs```
-
+- Swagger Documentation: ```/api-docs```
 
 
 #### Scraping
@@ -50,6 +57,6 @@ The server is configured to scrape tweets every hour using node-scheduler.
 
 However, for testing purposes, you can use the following endpoint to do an automatic scrape.
 
-- Manually Scrape Tweets API: ```GET``` ``` http://localhost:3000/api/tweets/manualscrape```
+- Manually Scrape Tweets API: ```GET``` ``` /api/tweets/manualscrape```
 
 

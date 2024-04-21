@@ -37,7 +37,7 @@ router.get('/', getPaginatedTweets);
  *   get:
  *     summary: Scrape tweets manually/right now
  *     tags: [Tweets]
- *     description: Takes sometime to run. Helpful if you don't want to wait for hourly scheduler. 
+ *     description: Scrapes tweets instantly. Will take sometime to run. Helpful if you don't want to wait for hourly scheduler. 
  *     responses:
  *       200:
  *         description: A message saying scraped successfully.
