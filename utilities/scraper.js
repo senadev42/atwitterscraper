@@ -85,11 +85,11 @@ export default async function scrapeTweets(url) {
 
         //Assets
         const videoURL = tweetElement.querySelector('[type="video/mp4"]')?.getAttribute('src') || null;
-        const imageURL = Array.from(tweetElement.querySelectorAll('[alt="Image"]'))?.map(img => img.getAttribute('src'))[0] || null;
+        const imageurl = Array.from(tweetElement.querySelectorAll('[alt="Image"]'))?.map(img => img.getAttribute('src'))[0] || null;
         const postURL = tweetElement.querySelector('[rel="noopener noreferrer nofollow"]')?.getAttribute('href') || null;
 
         //Type of Post
-        const postType = videoURL ? "video" : imageURL ? "image" : postURL ? "link" : "text";
+        const postType = videoURL ? "video" : imageurl ? "image" : postURL ? "link" : "text";
 
         //push the object
         tweetObjects.push({
@@ -99,7 +99,7 @@ export default async function scrapeTweets(url) {
           datetime: datetime,
           tweetText: tweetText.trim(),
           videoURL: videoURL,
-          imageURL: imageURL,
+          imageurl: imageurl,
           postURL: postURL,
           postType: postType
         });

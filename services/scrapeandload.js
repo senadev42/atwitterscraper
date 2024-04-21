@@ -22,12 +22,12 @@ async function loadTweetsIntoDB(tweetObjects) {
     await client.connect();
 
     for (const tweet of tweetObjects) {
-      const { socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, videoURL, imageURL, postURL, postType } = tweet;
+      const { socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, videoURL, imageurl, postURL, postType } = tweet;
       await client.query(
-        `INSERT INTO scrapedtweets (socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, videoURL, imageURL, postURL, postType)
+        `INSERT INTO scrapedtweets (socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, videoURL, imageurl, postURL, postType)
            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
            ON CONFLICT (hash) DO NOTHING`,
-        [socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, videoURL, imageURL, postURL, postType]
+        [socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, videoURL, imageurl, postURL, postType]
       );
     }
 
@@ -59,7 +59,7 @@ async function scrapeandloadtweets() {
 
     //2. save any images to local storage, but don't do this on render
     if (process.env.ONRENDER == null) {
-      console.log("\n2. Downloading Images");
+      console.log("\n2. Downloading Images for this cycle");
       await processImages(tweetObjects);
     }
 

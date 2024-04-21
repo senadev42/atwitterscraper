@@ -1,5 +1,6 @@
 import { paginatetweets } from "../services/paginatetweets.js";
 import scrapeandloadtweets from "../services/scrapeandload.js";
+import {processImages} from "../utilities/processImages.js";
 
 
 export const getPaginatedTweets = async (req, res) => {
@@ -25,3 +26,17 @@ export const manualscrape = async (req, res) => {
         res.status(500).json({ message: 'Error scraping tweets' });
     }
 }
+
+export const loadimages = async (req, res) => {
+    try {
+        const alltweets = await paginatetweets(0, 0, true);
+        console.log(alltweets); 
+
+        await processImages(alltweets);
+
+        res.status(200).json({ message: "Successfully downloaded all tweet images" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Error scraping tweets' });
+    }
+} 

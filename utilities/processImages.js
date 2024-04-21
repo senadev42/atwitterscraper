@@ -9,16 +9,16 @@ export async function processImages(tweetObjects) {
   }
 
   const tweetswithImages = tweetObjects.filter(
-    (tweet) => tweet.imageURL != null
+    (tweet) => tweet.imageurl != null
   );
   console.log(`Found ${tweetswithImages.length} tweets with image urls.`);
 
   for (const tweet of tweetswithImages) {
     try {
-      console.log(`Downloading image for tweet: ${tweet.imageURL}`);
+      console.log(`Downloading image for tweet: ${tweet.imageurl}`);
 
       //download the image
-      const response = await axios.get(tweet.imageURL, {
+      const response = await axios.get(tweet.imageurl, {
         responseType: "stream",
       });
 
@@ -28,7 +28,7 @@ export async function processImages(tweetObjects) {
       //save the image
       const filePath = path.join(
         downloadDir,
-        path.basename(tweet.imageURL.split("?")[0] + "." + imageformat)
+        path.basename(tweet.imageurl.split("?")[0] + "." + imageformat)
       );
       const writer = fs.createWriteStream(filePath);
 
@@ -42,7 +42,7 @@ export async function processImages(tweetObjects) {
       console.log(`Image downloaded: ${filePath}`);
     } catch (error) {
       console.error(
-        `Failed to download image for tweet: ${tweet.imageURL}`,
+        `Failed to download image for tweet: ${tweet.imageurl}`,
         error
       );
     }

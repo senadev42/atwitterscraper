@@ -36,7 +36,7 @@ export default async function initDB() {
                 datetime TIMESTAMP,
                 tweetText TEXT,
                 videoURL VARCHAR(255),
-                imageURL VARCHAR(255),
+                imageurl VARCHAR(255),
                 postURL VARCHAR(255),
                 postType VARCHAR(20),
                 hash VARCHAR(255) UNIQUE

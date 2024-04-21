@@ -6,7 +6,7 @@ dotenv.config();
 
 const connectionString = process.env.POSTGRES_CONN_STRING;
 
-export async function paginatetweets(page = 1, size = 5) {
+export async function paginatetweets(page = 1, size = 5, returnAll = false) {
 
     console.log("Trying to connect to DB");
     const client = new Client({
@@ -18,13 +18,26 @@ export async function paginatetweets(page = 1, size = 5) {
     try {
         await client.connect();
 
-        const offset = (page - 1) * size;
-        const query = `
-            SELECT * FROM scrapedtweets
-            ORDER BY id DESC
-            LIMIT $1 OFFSET $2;
-        `;
-        const { rows } = await client.query(query, [size, offset]);
+        let query;
+        let values;
+
+        if (returnAll) {
+            query = `
+                SELECT * FROM scrapedtweets
+                ORDER BY id DESC;
+            `;
+            values = [];
+        } else {
+            const offset = (page - 1) * size;
+            query = `
+                SELECT * FROM scrapedtweets
+                ORDER BY id DESC
+                LIMIT $1 OFFSET $2;
+            `;
+            values = [size, offset];
+        }
+
+        const { rows } = await client.query(query, values);
 
         return rows;
     } catch (error) {

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 const router = Router();
-import { getPaginatedTweets, manualscrape } from '../controllers/tweetController.js';
+import { getPaginatedTweets, manualscrape, loadimages } from '../controllers/tweetController.js';
 
 /**
  * @swagger
@@ -46,5 +46,20 @@ router.get('/', getPaginatedTweets);
  * 
  */
 router.get('/manualscrape', manualscrape);
+
+/**
+ * @swagger
+ * /api/tweets/loadimages:
+ *   get:
+ *     summary: Triggers a download of all images in db even if not in current cycle. 
+ *     tags: [Debug]
+ *     responses:
+ *       200:
+ *         description: A message saying downloaded images successfully.
+ *       500:
+ *         description: Server error.
+ * 
+ */
+router.get('/loadimages', loadimages);
 
 export default router;
