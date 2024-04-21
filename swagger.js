@@ -8,12 +8,7 @@ const options = {
             title: 'Twitter Scraper API',
             version: '1.0.0',
             description: 'API documentation generated with Swagger',
-        },
-        servers: [
-            {
-                url: 'http://localhost:3000',
-            },
-        ],
+        }
     },
     apis: ['server.js', './routes/*.js'], 
 };
