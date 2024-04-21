@@ -35,9 +35,9 @@ router.get('/', getPaginatedTweets);
  * @swagger
  * /api/tweets/manualscrape:
  *   get:
- *     summary: Scrape tweets manually/right now
- *     tags: [Tweets]
- *     description: Scrapes tweets instantly. Will take sometime to run. Helpful if you don't want to wait for hourly scheduler. 
+ *     summary: Triggers the scrape and load cycle instantly. 
+ *     tags: [Debug]
+ *     description:  Will not work on render hosted version. See project readme for details > github.com/senadev42/atwitterscraper?tab=readme-ov-file#hosted-version. 
  *     responses:
  *       200:
  *         description: A message saying scraped successfully.

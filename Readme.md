@@ -9,10 +9,12 @@ Almost the entirety of the scraping logic is in utilities/scraper.js while every
 
 A hosted version of this api using render's free tier can be found at https://atwitterscraper.onrender.com with the swagger api documentation hosted at https://atwitterscraper.onrender.com/api-docs.
 
-This version is limited in that it will take time to spin up since render spins down servers after a period of inactivity, so it will not start automatically.
+This version is **limited** in that 
+- it will take time to spin up since render spins down servers after a period of inactivity, so it will not start automatically.
+- limited ci/cd + no access to the shell means puppeteer doesn't have access to chromium on the render server without doing some truly hacky stuff.
 
 
-Alternatively. You can set it up on your own:
+While /api/tweets will serve tweets scraped so far on the hosted version, to do a full test it will have be setup locally or on a controlled enviroment.
 
 ### Setup
 
