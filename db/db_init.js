@@ -35,11 +35,14 @@ export default async function initDB() {
                 isQuoteTweet BOOLEAN,
                 datetime TIMESTAMP,
                 tweetText TEXT,
-                hash VARCHAR(255) UNIQUE,
-                isVideoPost BOOLEAN,
-                videoURL VARCHAR(255)
-            );`;
-
+                videoURL VARCHAR(255),
+                imageURL VARCHAR(255),
+                postURL VARCHAR(255),
+                postType VARCHAR(20),
+                hash VARCHAR(255) UNIQUE
+            );
+         `;
+        
             await client.query(createTableQuery);
             console.log("Table scrapedtweets created successfully.");
         } else {
