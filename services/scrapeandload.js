@@ -19,12 +19,12 @@ async function loadTweetsIntoDB(tweetObjects) {
     await client.connect();
 
     for (const tweet of tweetObjects) {
-      const { socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, isVideoPost, videoURL, imageURL, postURL, postType } = tweet;
+      const { socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, videoURL, imageURL, postURL, postType } = tweet;
       await client.query(
-        `INSERT INTO scrapedtweets (socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, isVideoPost, videoURL, imageURL, postURL, postType)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        `INSERT INTO scrapedtweets (socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, videoURL, imageURL, postURL, postType)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
            ON CONFLICT (hash) DO NOTHING`,
-        [socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, isVideoPost, videoURL, imageURL, postURL, postType]
+        [socialContext, authorHandle, isQuoteTweet, datetime, tweetText, hash, videoURL, imageURL, postURL, postType]
       );
     }
 
@@ -49,7 +49,7 @@ async function scrapeandloadtweets() {
   try {
     const tweetObjects = await scrapeTweets(url);
 
-    console.log(tweetObjects);
+    //console.log(tweetObjects);
     console.log(tweetObjects.length + " tweets scraped.")
 
     //save any images to local storage, but don't do this on render
@@ -59,12 +59,16 @@ async function scrapeandloadtweets() {
     }
 
     // Load the scraped tweets into the database
-    // await loadTweetsIntoDB(tweetObjects);
-    // console.log("Tweets loaded into database");
+    await loadTweetsIntoDB(tweetObjects);
+    console.log("Tweets loaded into database");
+
+    console.log("Scrape and load cycle finished successfully");
 
   } catch (err) {
     console.error("Error during scraping:", err);
-  }
+  } 
+
+  
 
   return;
 }
