@@ -41,7 +41,7 @@ async function loadTweetsIntoDB(tweetObjects) {
 
 async function scrapeandloadtweets() {
   // Initialize the database - this will create the tables if they don't exist
-  console.log("\nInitializing database if it doesn't exist");
+  console.log("\n0. Initializing database if it doesn't exist");
   await initDB();
   console.log("Database initialized \n");
 
@@ -51,7 +51,7 @@ async function scrapeandloadtweets() {
 
   try {
     // 1. Scrape tweets from a specific URL
-    console.log("\nScraping: " + url);
+    console.log("1. Scraping: " + url);
     const tweetObjects = await scrapeTweets(url);
 
     //console.log(tweetObjects);
@@ -59,20 +59,21 @@ async function scrapeandloadtweets() {
 
     //2. save any images to local storage, but don't do this on render
     if (process.env.ONRENDER == null) {
-      console.log("\nDownloading Images");
+      console.log("\n2. Downloading Images");
       await processImages(tweetObjects);
     }
 
     //3. if there were any video this scrape cycle email them
     if (process.env.ONRENDER == null && process.env.EMAIL_TARGET) {
-      console.log("\nSending emails");
+      console.log("\n3. Sending emails");
       await emailvideos(tweetObjects);
     }
 
     // 4. Load the scraped tweets into the database
+    console.log("\n4. Loading tweets into database");
     await loadTweetsIntoDB(tweetObjects);
   
-    console.log("Scrape and load cycle finished successfully");
+    console.log("\nF. Scrape and load cycle finished successfully");
   } catch (err) {
     console.error("Error during scraping:", err);
   } 

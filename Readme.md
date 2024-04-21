@@ -43,13 +43,16 @@ POSTGRES_CONN_STRING = "postgresql://<username>:<password>@<dbhost>/<dbname>?ssl
 
 Note: Including the ```sslmode=require``` parameter is required if you're going to be using this with a managed database like neon. 
 
-4. This project uses mailgun as an email provider. You'll need to create a mailgun account and get an api key and a domain. And without verification, you'll need to add the email account you're testing with into Authorized Recepients under Sending > Overview in Mailgun.
+4. This project uses mailgun as an email provider. You'll need to create a mailgun account and get an api key and a domain. 
 
 ```
 MAILGUN_API_KEY = ""
 MAILGUN_DOMAIN = ""
 EMAIL_TARGET = ""
 ```
+And without verification, you'll need to add the email account you're testing with into Authorized Recepients under Sending > Overview in Mailgun.
+
+
 
 5. Start the server:
 

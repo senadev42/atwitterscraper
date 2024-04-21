@@ -5,7 +5,7 @@ dotenv.config();
 
 async function emailvideos(tweetObjects) {
   const data = {
-    from: `Twitter Scraper Project`,
+    from: `Twitter Scraper Project <scraper@twitterscraperproject>`,
     to: process.env.EMAIL_TARGET,
     subject: "Latest Tweets Scraped That Have Videos In Them",
     text: "Here are the videos that were just scraped: ",
@@ -20,13 +20,11 @@ async function emailvideos(tweetObjects) {
 
   // Iterate over each tweet object
   for (const tweet of tweetswithvideos) {
-    data.text += `\n\n\nBy: ${tweet.authorHandle}`
-    data.text += `\n\n${tweet.tweetText.slice(0,80)}`
+    data.text += `\n\nBy: ${tweet.authorHandle}`
+    data.text += `\n${tweet.tweetText.slice(0,80)}`
     data.text += `\nPost URL: ${tweet.postURL}`
 
   }
-
-  console.log(data);
 
   try {
     // Send the email
@@ -34,7 +32,7 @@ async function emailvideos(tweetObjects) {
 
     console.log(`Emails with videos sent.`);
   } catch (error) {
-    console.error("Sending emails with videos failed: ", error);
+    console.error("Sending emails with videos failed: ", error.message);
   }
 }
 

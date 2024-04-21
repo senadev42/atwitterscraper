@@ -14,7 +14,7 @@ export default async function scrapeTweets(url) {
   await page.setViewport({ width: 1000, height: 1024 });
 
   //wait for at least one tweet to show up
-  await page.waitForSelector('[data-testid="tweet"]', { timeout: 5000 });
+  await page.waitForSelector('[data-testid="tweet"]', { timeout: 10000 });
 
 
   //Load Tweets
