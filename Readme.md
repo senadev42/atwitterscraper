@@ -48,11 +48,15 @@ Note: Including the ```sslmode=require``` parameter is required if you're going 
 ```
 MAILGUN_API_KEY = ""
 MAILGUN_DOMAIN = ""
+
 EMAIL_TARGET = ""
 ```
-And if using the sandbox domain (https://app.mailgun.com/mg/sending/domains) provided by mailgun, you will need to add the email account you're testing with into _Authorized Recepients_ and confirm it.
+And if using the _sandbox domain_ (https://app.mailgun.com/mg/sending/domains) provided by mailgun, you will need to 
+- add the email account you're testing with into _Authorized Recepients_
+- confirm the email in your inbox to become verified
 
-![image](https://github.com/senadev42/atwitterscraper/assets/101792782/b2257102-2ff6-433d-be7c-d29ad7c4df32)
+![image](https://github.com/senadev42/atwitterscraper/assets/101792782/52552fb6-f44b-4b20-b5f1-aa0f01bb67f3)
+
 
 
 5. Start the server:
